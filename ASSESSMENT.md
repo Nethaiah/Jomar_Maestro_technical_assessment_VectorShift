@@ -1,4 +1,4 @@
-# VectorShift Frontend Technical Assessment
+﻿# VectorShift Frontend Technical Assessment
 
 ## Overview
 
@@ -7,6 +7,29 @@ This assessment is a small full-stack pipeline builder app.
 - Frontend: JavaScript/React in `frontend/src`
 - Backend: Python/FastAPI in `backend`
 - Main UI concept: users drag nodes onto a React Flow canvas, connect them into a pipeline, then submit the pipeline to the backend for analysis.
+
+## Hiring Thread Context
+
+Albert Mao, a co-founder of VectorShift, sent this as Step 1 of their interview process.
+
+VectorShift's stated product goal is to become an end-to-end horizontal solution for bringing generative AI to non-technical users. This assessment is meant to test whether you can turn a starter pipeline-builder interface into a polished, working product experience.
+
+The interview process described in the thread:
+
+1. Technical take-home assessment
+2. Behavioral and technical screen
+3. Behavioral interview with Albert, co-founder
+4. Technical interview with Alex, co-founder
+
+The assessment will be judged based on:
+
+- successful completion of the required tasks
+- code architecture
+- design
+
+The thread also asks for a screen recording that walks through the final product. The recording should focus on final functionality and design, with a brief discussion of the code.
+
+Deadline from the thread: 11:59 PM IST on the upcoming Sunday. If the message was received on Monday, June 22, 2026, that would be Sunday, June 28, 2026. Confirm against the original email timestamp before submitting.
 
 The final product should let a user:
 
@@ -292,6 +315,21 @@ In the screen recording, focus on:
 - text node variable handles
 - submit/backend result
 - brief explanation of the code architecture
+
+Suggested walkthrough structure:
+
+1. Briefly introduce the app as a visual pipeline builder.
+2. Drag several nodes onto the canvas.
+3. Connect the nodes into a valid pipeline.
+4. Show the five new node types.
+5. Open the text node and demonstrate auto-resizing.
+6. Type variables such as `{{ input }}` and show the dynamic handles.
+7. Click submit and show the alert from the backend.
+8. Briefly explain:
+   - the node abstraction
+   - the Zustand/React Flow state flow
+   - the FastAPI parsing endpoint
+   - the DAG detection logic
 
 ## Current Starter Repo Status
 

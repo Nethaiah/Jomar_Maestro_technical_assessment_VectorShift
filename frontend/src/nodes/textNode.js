@@ -1,35 +1,90 @@
-// textNode.js
+import { useLayoutEffect, useMemo, useRef } from 'react';
+import { Position } from 'reactflow';
+import { useStore } from '../store';
+import { BaseNode } from './BaseNode';
 
-import { useState } from 'react';
-import { Handle, Position } from 'reactflow';
+const VARIABLE_PATTERN = /\{\{\s*([A-Za-z_$][A-Za-z0-9_$]*)\s*\}\}/g;
+
+const getVariables = (text) => {
+  const variables = new Set();
+  let match;
+
+  while ((match = VARIABLE_PATTERN.exec(text)) !== null) {
+    variables.add(match[1]);
+  }
+
+  return Array.from(variables);
+};
+
+const getNodeWidth = (text) => {
+  const longestLine = text.split('\n').reduce((longest, line) => Math.max(longest, line.length), 0);
+  return Math.min(440, Math.max(260, longestLine * 7 + 120));
+};
 
 export const TextNode = ({ id, data }) => {
-  const [currText, setCurrText] = useState(data?.text || '{{input}}');
+  const textareaRef = useRef(null);
+  const updateNodeField = useStore((state) => state.updateNodeField);
+  const text = data?.text ?? '{{input}}';
+  const variables = useMemo(() => getVariables(text), [text]);
+  const nodeWidth = useMemo(() => getNodeWidth(text), [text]);
 
-  const handleTextChange = (e) => {
-    setCurrText(e.target.value);
-  };
+  useLayoutEffect(() => {
+    if (!textareaRef.current) {
+      return;
+    }
+
+    textareaRef.current.style.height = 'auto';
+    textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+  }, [text]);
+
+  const variableHandles = variables.map((variable, index) => ({
+    type: 'target',
+    position: Position.Left,
+    id: `${id}-${variable}`,
+    className: 'variable-handle',
+    style: {
+      top: `${((index + 1) / (variables.length + 1)) * 100}%`,
+    },
+  }));
 
   return (
-    <div style={{width: 200, height: 80, border: '1px solid black'}}>
-      <div>
+    <BaseNode
+      id={id}
+      data={data}
+      title="Text"
+      subtitle="Prompt template"
+      className="text-node"
+      style={{ width: nodeWidth }}
+      handles={[
+        ...variableHandles,
+        {
+          type: 'source',
+          position: Position.Right,
+          id: `${id}-output`,
+        },
+      ]}
+    >
+      <label className="node-field">
         <span>Text</span>
-      </div>
-      <div>
-        <label>
-          Text:
-          <input 
-            type="text" 
-            value={currText} 
-            onChange={handleTextChange} 
-          />
-        </label>
-      </div>
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`${id}-output`}
-      />
-    </div>
+        <textarea
+          ref={textareaRef}
+          className="text-node-textarea"
+          value={text}
+          placeholder="Write prompt text here. Use {{ input }} to create a variable handle."
+          rows={3}
+          onChange={(event) => updateNodeField(id, 'text', event.target.value)}
+        />
+      </label>
+
+      {variables.length > 0 ? (
+        <div className="variable-list">
+          {variables.map((variable) => (
+            <span className="variable-pill" key={variable}>
+              {variable}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </BaseNode>
   );
-}
+};
