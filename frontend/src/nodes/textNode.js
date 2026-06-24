@@ -41,6 +41,7 @@ export const TextNode = ({ id, data }) => {
     type: 'target',
     position: Position.Left,
     id: `${id}-${variable}`,
+    accent: 'teal',
     className: 'variable-handle',
     style: {
       top: `${((index + 1) / (variables.length + 1)) * 100}%`,
@@ -53,6 +54,7 @@ export const TextNode = ({ id, data }) => {
       data={data}
       title="Text"
       subtitle="Prompt template"
+      accent="warm"
       className="text-node"
       style={{ width: nodeWidth }}
       handles={[

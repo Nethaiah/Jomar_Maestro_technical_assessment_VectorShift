@@ -7,6 +7,7 @@ export const APINode = ({ id, data }) => (
     data={data}
     title="API"
     subtitle="Fetch external data"
+    accent="purple"
     fields={[
       { name: 'endpoint', label: 'Endpoint', defaultValue: 'https://api.example.com', placeholder: 'https://api.example.com' },
       {
@@ -34,6 +35,7 @@ export const FilterNode = ({ id, data }) => (
     data={data}
     title="Filter"
     subtitle="Keep matching records"
+    accent="purple"
     fields={[
       { name: 'condition', label: 'Condition', defaultValue: 'status == active', placeholder: 'field == value' },
     ]}
@@ -50,6 +52,7 @@ export const TransformNode = ({ id, data }) => (
     data={data}
     title="Transform"
     subtitle="Reshape data"
+    accent="blue"
     fields={[
       {
         name: 'operation',
@@ -76,6 +79,7 @@ export const DatabaseNode = ({ id, data }) => (
     data={data}
     title="Database"
     subtitle="Query stored data"
+    accent="blue"
     fields={[
       { name: 'table', label: 'Table', defaultValue: 'customers', placeholder: 'table_name' },
       {
@@ -103,6 +107,7 @@ export const ImageGenerationNode = ({ id, data }) => (
     data={data}
     title="Image"
     subtitle="Generate visuals"
+    accent="pink"
     fields={[
       {
         name: 'style',

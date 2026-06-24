@@ -65,6 +65,7 @@ export const BaseNode = ({
   data,
   title,
   subtitle,
+  accent = 'teal',
   fields = [],
   handles = [],
   children,
@@ -79,21 +80,31 @@ export const BaseNode = ({
   };
 
   return (
-    <div className={`base-node ${className}`.trim()} style={style}>
+    <div className={`base-node node-accent-${accent} ${className}`.trim()} style={style}>
       {handles.map((handle) => (
         <Handle
           key={handle.id}
           type={handle.type}
           position={handle.position}
           id={handle.id}
-          className={handle.className}
+          className={[
+            'pb-handle',
+            `pb-handle-${handle.type}`,
+            `handle-accent-${handle.accent ?? accent}`,
+            handle.className,
+          ]
+            .filter(Boolean)
+            .join(' ')}
           style={handle.style}
         />
       ))}
 
       <div className="node-header">
         <div className="node-title-row">
-          <span className="node-title">{title}</span>
+          <span className="node-title-group">
+            <span className="node-dot" aria-hidden="true" />
+            <span className="node-title">{title}</span>
+          </span>
           <button
             className="node-delete-button nodrag nopan"
             type="button"

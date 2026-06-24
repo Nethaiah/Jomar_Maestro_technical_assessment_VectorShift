@@ -8,6 +8,7 @@ export const LLMNode = ({ id, data }) => {
       data={data}
       title="LLM"
       subtitle="Generate a response"
+      accent="warm"
       handles={[
         {
           type: 'target',

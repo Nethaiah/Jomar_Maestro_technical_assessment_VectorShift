@@ -8,6 +8,7 @@ export const OutputNode = ({ id, data }) => {
       data={data}
       title="Output"
       subtitle="Final destination"
+      accent="teal"
       fields={[
         {
           name: 'outputName',

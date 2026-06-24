@@ -8,6 +8,7 @@ export const InputNode = ({ id, data }) => {
       data={data}
       title="Input"
       subtitle="Pipeline source"
+      accent="teal"
       fields={[
         {
           name: 'inputName',

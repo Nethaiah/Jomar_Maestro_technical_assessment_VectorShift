@@ -1,44 +1,57 @@
 // toolbar.js
 
-import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { Moon, PanelLeftClose, PanelLeftOpen, Sun } from 'lucide-react';
 import { DraggableNode } from './draggableNode';
 
 const nodeGroups = [
   {
     label: 'Core',
     nodes: [
-      { type: 'customInput', label: 'Input' },
-      { type: 'llm', label: 'LLM' },
-      { type: 'customOutput', label: 'Output' },
-      { type: 'text', label: 'Text' },
+      { type: 'customInput', label: 'Input', accent: 'teal' },
+      { type: 'llm', label: 'LLM', accent: 'warm' },
+      { type: 'customOutput', label: 'Output', accent: 'teal' },
+      { type: 'text', label: 'Text', accent: 'warm' },
     ],
   },
   {
     label: 'Workflow',
     nodes: [
-      { type: 'api', label: 'API' },
-      { type: 'filter', label: 'Filter' },
-      { type: 'transform', label: 'Transform' },
-      { type: 'database', label: 'Database' },
-      { type: 'imageGeneration', label: 'Image' },
+      { type: 'api', label: 'API', accent: 'purple' },
+      { type: 'filter', label: 'Filter', accent: 'purple' },
+      { type: 'transform', label: 'Transform', accent: 'blue' },
+      { type: 'database', label: 'Database', accent: 'blue' },
+      { type: 'imageGeneration', label: 'Image', accent: 'pink' },
     ],
   },
 ];
 
-export const PipelineToolbar = ({ isCollapsed, onToggle }) => {
+export const PipelineToolbar = ({ isCollapsed, onToggle, theme, onThemeToggle }) => {
   const ToggleIcon = isCollapsed ? PanelLeftOpen : PanelLeftClose;
+  const ThemeIcon = theme === 'dark' ? Sun : Moon;
+  const nextTheme = theme === 'dark' ? 'light' : 'dark';
 
   return (
     <aside className={`toolbar ${isCollapsed ? 'toolbar-collapsed' : ''}`}>
-      <button
-        className="toolbar-toggle"
-        type="button"
-        onClick={onToggle}
-        aria-label={isCollapsed ? 'Expand node toolbar' : 'Collapse node toolbar'}
-        title={isCollapsed ? 'Expand toolbar' : 'Collapse toolbar'}
-      >
-        <ToggleIcon size={18} strokeWidth={2.2} />
-      </button>
+      <div className="toolbar-actions">
+        <button
+          className="toolbar-toggle"
+          type="button"
+          onClick={onToggle}
+          aria-label={isCollapsed ? 'Expand node toolbar' : 'Collapse node toolbar'}
+          title={isCollapsed ? 'Expand toolbar' : 'Collapse toolbar'}
+        >
+          <ToggleIcon size={18} strokeWidth={2.2} />
+        </button>
+        <button
+          className="toolbar-toggle theme-toggle"
+          type="button"
+          onClick={onThemeToggle}
+          aria-label={`Switch to ${nextTheme} mode`}
+          title={`Switch to ${nextTheme} mode`}
+        >
+          <ThemeIcon size={17} strokeWidth={2.2} />
+        </button>
+      </div>
 
       {isCollapsed ? (
         <div className="toolbar-collapsed-label" aria-hidden="true">
@@ -47,7 +60,7 @@ export const PipelineToolbar = ({ isCollapsed, onToggle }) => {
       ) : (
         <>
           <div className="toolbar-heading">
-            <span className="toolbar-eyebrow">VectorShift Assessment</span>
+            <span className="toolbar-eyebrow">VectorShift</span>
             <h1>Pipeline Builder</h1>
           </div>
 
@@ -56,7 +69,12 @@ export const PipelineToolbar = ({ isCollapsed, onToggle }) => {
               <h2>{group.label}</h2>
               <div className="toolbar-node-grid">
                 {group.nodes.map((node) => (
-                  <DraggableNode key={node.type} type={node.type} label={node.label} />
+                  <DraggableNode
+                    key={node.type}
+                    type={node.type}
+                    label={node.label}
+                    accent={node.accent}
+                  />
                 ))}
               </div>
             </section>
